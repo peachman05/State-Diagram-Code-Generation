@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1467692182 source:c:\users\trainee2\desktop\codeblock\testblink\src-gen\lightswitch.c
+	<stdlib.h>
+	<string.h>
+	"..\src\sc_types.h"
+	"LightSwitch.h"
+
+1467689768 c:\users\trainee2\desktop\codeblock\testblink\src\sc_types.h
+	<stdint.h>
+	<stdbool.h>
+
+1467689768 c:\users\trainee2\desktop\codeblock\testblink\src-gen\lightswitch.h
+	"..\src\sc_types.h"
+
+1467693470 source:c:\users\trainee2\desktop\codeblock\testblink\main.c
+	<stdio.h>
+	<stdlib.h>
+	"src/sc_types.h"
+	"src-gen/LightSwitch.h"
+

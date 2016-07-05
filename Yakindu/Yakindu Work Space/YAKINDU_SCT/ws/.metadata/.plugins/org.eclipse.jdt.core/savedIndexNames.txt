@@ -1,0 +1,8 @@
+INDEX VERSION 1.127+C:\Users\Trainee2\YAKINDU_SCT\ws\.metadata\.plugins\org.eclipse.jdt.core
+1973572915.index
+47070499.index
+3271193799.index
+1235761574.index
+521605994.index
+2628429952.index
+699995087.index

@@ -1,0 +1,11 @@
+GeneratorModel for yakindu::c {
+
+	statechart LightSwitch {
+
+		feature Outlet {
+			targetProject = "LightSwitch"
+			targetFolder = "src-gen"
+			libraryTargetFolder = "src"
+		}
+	}
+}
