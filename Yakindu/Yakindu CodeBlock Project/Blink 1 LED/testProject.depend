@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1467775414 source:c:\users\trainee2\desktop\codeblock\testproject\main.c
+	<stdio.h>
+	<stdlib.h>
+	<sys\timeb.h>
+	"src/sc_types.h"
+	"src-gen/LightSwitch.h"
+	"scutil/sc_timer_service.h"
+
+1467689768 c:\users\trainee2\desktop\codeblock\testproject\src\sc_types.h
+	<stdint.h>
+	<stdbool.h>
+
+1467699504 c:\users\trainee2\desktop\codeblock\testproject\src-gen\lightswitch.h
+	"..\src\sc_types.h"
+
+1467356023 c:\users\trainee2\desktop\codeblock\testproject\scutil\sc_timer_service.h
+	"../src/sc_types.h"
+
+1467356199 source:c:\users\trainee2\desktop\codeblock\testproject\scutil\sc_timer_service.c
+	<stdlib.h>
+	<stdio.h>
+	"sc_timer_service.h"
+
+1467699554 source:c:\users\trainee2\desktop\codeblock\testproject\src-gen\lightswitch.c
+	<stdlib.h>
+	<string.h>
+	"..\src\sc_types.h"
+	"LightSwitch.h"
+	"LightSwitchRequired.h"
+
+1467699472 c:\users\trainee2\desktop\codeblock\testproject\src-gen\lightswitchrequired.h
+	"..\src\sc_types.h"
+	"LightSwitch.h"
+

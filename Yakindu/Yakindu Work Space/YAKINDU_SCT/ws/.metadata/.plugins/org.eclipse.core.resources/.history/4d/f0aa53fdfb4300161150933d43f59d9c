@@ -1,0 +1,483 @@
+
+#include <stdlib.h>
+#include <string.h>
+#include "..\src\sc_types.h"
+#include "LightSwitch2.h"
+#include "LightSwitch2Required.h"
+/*! \file Implementation of the state machine 'LightSwitch2'
+*/
+
+/* prototypes of all internal functions */
+static sc_boolean lightSwitch2_check_main_region_off_tr0_tr0(const LightSwitch2* handle);
+static sc_boolean lightSwitch2_check_main_region_on_tr0_tr0(const LightSwitch2* handle);
+static sc_boolean lightSwitch2_check_LED2_off_tr0_tr0(const LightSwitch2* handle);
+static sc_boolean lightSwitch2_check_LED2_on_tr0_tr0(const LightSwitch2* handle);
+static void lightSwitch2_effect_main_region_off_tr0(LightSwitch2* handle);
+static void lightSwitch2_effect_main_region_on_tr0(LightSwitch2* handle);
+static void lightSwitch2_effect_LED2_off_tr0(LightSwitch2* handle);
+static void lightSwitch2_effect_LED2_on_tr0(LightSwitch2* handle);
+static void lightSwitch2_enact_main_region_off(LightSwitch2* handle);
+static void lightSwitch2_enact_main_region_on(LightSwitch2* handle);
+static void lightSwitch2_enact_LED2_off(LightSwitch2* handle);
+static void lightSwitch2_enact_LED2_on(LightSwitch2* handle);
+static void lightSwitch2_exact_main_region_off(LightSwitch2* handle);
+static void lightSwitch2_exact_main_region_on(LightSwitch2* handle);
+static void lightSwitch2_exact_LED2_off(LightSwitch2* handle);
+static void lightSwitch2_exact_LED2_on(LightSwitch2* handle);
+static void lightSwitch2_enseq_main_region_off_default(LightSwitch2* handle);
+static void lightSwitch2_enseq_main_region_on_default(LightSwitch2* handle);
+static void lightSwitch2_enseq_LED2_off_default(LightSwitch2* handle);
+static void lightSwitch2_enseq_LED2_on_default(LightSwitch2* handle);
+static void lightSwitch2_enseq_main_region_default(LightSwitch2* handle);
+static void lightSwitch2_enseq_LED2_default(LightSwitch2* handle);
+static void lightSwitch2_exseq_main_region_off(LightSwitch2* handle);
+static void lightSwitch2_exseq_main_region_on(LightSwitch2* handle);
+static void lightSwitch2_exseq_LED2_off(LightSwitch2* handle);
+static void lightSwitch2_exseq_LED2_on(LightSwitch2* handle);
+static void lightSwitch2_exseq_main_region(LightSwitch2* handle);
+static void lightSwitch2_exseq_LED2(LightSwitch2* handle);
+static void lightSwitch2_react_main_region_off(LightSwitch2* handle);
+static void lightSwitch2_react_main_region_on(LightSwitch2* handle);
+static void lightSwitch2_react_LED2_off(LightSwitch2* handle);
+static void lightSwitch2_react_LED2_on(LightSwitch2* handle);
+static void lightSwitch2_react_main_region__entry_Default(LightSwitch2* handle);
+static void lightSwitch2_react_LED2__entry_Default(LightSwitch2* handle);
+static void lightSwitch2_clearInEvents(LightSwitch2* handle);
+static void lightSwitch2_clearOutEvents(LightSwitch2* handle);
+
+
+void lightSwitch2_init(LightSwitch2* handle)
+{
+	sc_integer i;
+
+	for (i = 0; i < LIGHTSWITCH2_MAX_ORTHOGONAL_STATES; ++i)
+	{
+		handle->stateConfVector[i] = LightSwitch2_last_state;
+	}
+	
+	
+	handle->stateConfVectorPosition = 0;
+
+	lightSwitch2_clearInEvents(handle);
+	lightSwitch2_clearOutEvents(handle);
+
+
+}
+
+void lightSwitch2_enter(LightSwitch2* handle)
+{
+	/* Default enter sequence for statechart LightSwitch2 */
+	lightSwitch2_enseq_main_region_default(handle);
+	lightSwitch2_enseq_LED2_default(handle);
+}
+
+void lightSwitch2_exit(LightSwitch2* handle)
+{
+	/* Default exit sequence for statechart LightSwitch2 */
+	lightSwitch2_exseq_main_region(handle);
+	lightSwitch2_exseq_LED2(handle);
+}
+
+sc_boolean lightSwitch2_isActive(const LightSwitch2* handle)
+{
+	sc_boolean result;
+	if (handle->stateConfVector[0] != LightSwitch2_last_state || handle->stateConfVector[1] != LightSwitch2_last_state)
+	{
+		result =  bool_true;
+	}
+	else
+	{
+		result = bool_false;
+	}
+	return result;
+}
+
+/* 
+ * Always returns 'false' since this state machine can never become final.
+ */
+sc_boolean lightSwitch2_isFinal(const LightSwitch2* handle)
+{
+   return bool_false;
+}
+
+static void lightSwitch2_clearInEvents(LightSwitch2* handle)
+{
+	handle->timeEvents.lightSwitch2_main_region_off_tev0_raised = bool_false;
+	handle->timeEvents.lightSwitch2_main_region_on_tev0_raised = bool_false;
+	handle->timeEvents.lightSwitch2_LED2_off_tev0_raised = bool_false;
+	handle->timeEvents.lightSwitch2_LED2_on_tev0_raised = bool_false;
+}
+
+static void lightSwitch2_clearOutEvents(LightSwitch2* handle)
+{
+}
+
+void lightSwitch2_runCycle(LightSwitch2* handle)
+{
+	
+	lightSwitch2_clearOutEvents(handle);
+	
+	for (handle->stateConfVectorPosition = 0;
+		handle->stateConfVectorPosition < LIGHTSWITCH2_MAX_ORTHOGONAL_STATES;
+		handle->stateConfVectorPosition++)
+		{
+			
+		switch (handle->stateConfVector[handle->stateConfVectorPosition])
+		{
+		case LightSwitch2_main_region_off :
+		{
+			lightSwitch2_react_main_region_off(handle);
+			break;
+		}
+		case LightSwitch2_main_region_on :
+		{
+			lightSwitch2_react_main_region_on(handle);
+			break;
+		}
+		case LightSwitch2_LED2_off :
+		{
+			lightSwitch2_react_LED2_off(handle);
+			break;
+		}
+		case LightSwitch2_LED2_on :
+		{
+			lightSwitch2_react_LED2_on(handle);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	
+	lightSwitch2_clearInEvents(handle);
+}
+
+void lightSwitch2_raiseTimeEvent(const LightSwitch2* handle, sc_eventid evid)
+{
+	if ( ((sc_intptr_t)evid) >= ((sc_intptr_t)&(handle->timeEvents))
+		&&  ((sc_intptr_t)evid) < ((sc_intptr_t)&(handle->timeEvents)) + sizeof(LightSwitch2TimeEvents))
+		{
+		*(sc_boolean*)evid = bool_true;
+	}		
+}
+
+sc_boolean lightSwitch2_isStateActive(const LightSwitch2* handle, LightSwitch2States state)
+{
+	sc_boolean result = bool_false;
+	switch (state)
+	{
+		case LightSwitch2_main_region_off :
+			result = (sc_boolean) (handle->stateConfVector[0] == LightSwitch2_main_region_off
+			);
+			break;
+		case LightSwitch2_main_region_on :
+			result = (sc_boolean) (handle->stateConfVector[0] == LightSwitch2_main_region_on
+			);
+			break;
+		case LightSwitch2_LED2_off :
+			result = (sc_boolean) (handle->stateConfVector[1] == LightSwitch2_LED2_off
+			);
+			break;
+		case LightSwitch2_LED2_on :
+			result = (sc_boolean) (handle->stateConfVector[1] == LightSwitch2_LED2_on
+			);
+			break;
+		default:
+			result = bool_false;
+			break;
+	}
+	return result;
+}
+
+
+
+
+/* implementations of all internal functions */
+
+static sc_boolean lightSwitch2_check_main_region_off_tr0_tr0(const LightSwitch2* handle)
+{
+	return handle->timeEvents.lightSwitch2_main_region_off_tev0_raised;
+}
+
+static sc_boolean lightSwitch2_check_main_region_on_tr0_tr0(const LightSwitch2* handle)
+{
+	return handle->timeEvents.lightSwitch2_main_region_on_tev0_raised;
+}
+
+static sc_boolean lightSwitch2_check_LED2_off_tr0_tr0(const LightSwitch2* handle)
+{
+	return handle->timeEvents.lightSwitch2_LED2_off_tev0_raised;
+}
+
+static sc_boolean lightSwitch2_check_LED2_on_tr0_tr0(const LightSwitch2* handle)
+{
+	return handle->timeEvents.lightSwitch2_LED2_on_tev0_raised;
+}
+
+static void lightSwitch2_effect_main_region_off_tr0(LightSwitch2* handle)
+{
+	lightSwitch2_exseq_main_region_off(handle);
+	lightSwitch2Iface_setLight(handle, bool_true);
+	lightSwitch2_enseq_main_region_on_default(handle);
+}
+
+static void lightSwitch2_effect_main_region_on_tr0(LightSwitch2* handle)
+{
+	lightSwitch2_exseq_main_region_on(handle);
+	lightSwitch2Iface_setLight(handle, bool_false);
+	lightSwitch2_enseq_main_region_off_default(handle);
+}
+
+static void lightSwitch2_effect_LED2_off_tr0(LightSwitch2* handle)
+{
+	lightSwitch2_exseq_LED2_off(handle);
+	lightSwitch2Iface_setLight(handle, bool_true);
+	lightSwitch2_enseq_LED2_on_default(handle);
+}
+
+static void lightSwitch2_effect_LED2_on_tr0(LightSwitch2* handle)
+{
+	lightSwitch2_exseq_LED2_on(handle);
+	lightSwitch2Iface_setLight(handle, bool_false);
+	lightSwitch2_enseq_LED2_off_default(handle);
+}
+
+/* Entry action for state 'off'. */
+static void lightSwitch2_enact_main_region_off(LightSwitch2* handle)
+{
+	/* Entry action for state 'off'. */
+	lightSwitch2_setTimer(handle, (sc_eventid) &(handle->timeEvents.lightSwitch2_main_region_off_tev0_raised) , 2 * 1000, bool_false);
+}
+
+/* Entry action for state 'on'. */
+static void lightSwitch2_enact_main_region_on(LightSwitch2* handle)
+{
+	/* Entry action for state 'on'. */
+	lightSwitch2_setTimer(handle, (sc_eventid) &(handle->timeEvents.lightSwitch2_main_region_on_tev0_raised) , 2 * 1000, bool_false);
+}
+
+/* Entry action for state 'off'. */
+static void lightSwitch2_enact_LED2_off(LightSwitch2* handle)
+{
+	/* Entry action for state 'off'. */
+	lightSwitch2_setTimer(handle, (sc_eventid) &(handle->timeEvents.lightSwitch2_LED2_off_tev0_raised) , 1 * 1000, bool_false);
+}
+
+/* Entry action for state 'on'. */
+static void lightSwitch2_enact_LED2_on(LightSwitch2* handle)
+{
+	/* Entry action for state 'on'. */
+	lightSwitch2_setTimer(handle, (sc_eventid) &(handle->timeEvents.lightSwitch2_LED2_on_tev0_raised) , 1 * 1000, bool_false);
+}
+
+/* Exit action for state 'off'. */
+static void lightSwitch2_exact_main_region_off(LightSwitch2* handle)
+{
+	/* Exit action for state 'off'. */
+	lightSwitch2_unsetTimer(handle, (sc_eventid) &(handle->timeEvents.lightSwitch2_main_region_off_tev0_raised) );		
+}
+
+/* Exit action for state 'on'. */
+static void lightSwitch2_exact_main_region_on(LightSwitch2* handle)
+{
+	/* Exit action for state 'on'. */
+	lightSwitch2_unsetTimer(handle, (sc_eventid) &(handle->timeEvents.lightSwitch2_main_region_on_tev0_raised) );		
+}
+
+/* Exit action for state 'off'. */
+static void lightSwitch2_exact_LED2_off(LightSwitch2* handle)
+{
+	/* Exit action for state 'off'. */
+	lightSwitch2_unsetTimer(handle, (sc_eventid) &(handle->timeEvents.lightSwitch2_LED2_off_tev0_raised) );		
+}
+
+/* Exit action for state 'on'. */
+static void lightSwitch2_exact_LED2_on(LightSwitch2* handle)
+{
+	/* Exit action for state 'on'. */
+	lightSwitch2_unsetTimer(handle, (sc_eventid) &(handle->timeEvents.lightSwitch2_LED2_on_tev0_raised) );		
+}
+
+/* 'default' enter sequence for state off */
+static void lightSwitch2_enseq_main_region_off_default(LightSwitch2* handle)
+{
+	/* 'default' enter sequence for state off */
+	lightSwitch2_enact_main_region_off(handle);
+	handle->stateConfVector[0] = LightSwitch2_main_region_off;
+	handle->stateConfVectorPosition = 0;
+}
+
+/* 'default' enter sequence for state on */
+static void lightSwitch2_enseq_main_region_on_default(LightSwitch2* handle)
+{
+	/* 'default' enter sequence for state on */
+	lightSwitch2_enact_main_region_on(handle);
+	handle->stateConfVector[0] = LightSwitch2_main_region_on;
+	handle->stateConfVectorPosition = 0;
+}
+
+/* 'default' enter sequence for state off */
+static void lightSwitch2_enseq_LED2_off_default(LightSwitch2* handle)
+{
+	/* 'default' enter sequence for state off */
+	lightSwitch2_enact_LED2_off(handle);
+	handle->stateConfVector[1] = LightSwitch2_LED2_off;
+	handle->stateConfVectorPosition = 1;
+}
+
+/* 'default' enter sequence for state on */
+static void lightSwitch2_enseq_LED2_on_default(LightSwitch2* handle)
+{
+	/* 'default' enter sequence for state on */
+	lightSwitch2_enact_LED2_on(handle);
+	handle->stateConfVector[1] = LightSwitch2_LED2_on;
+	handle->stateConfVectorPosition = 1;
+}
+
+/* 'default' enter sequence for region main region */
+static void lightSwitch2_enseq_main_region_default(LightSwitch2* handle)
+{
+	/* 'default' enter sequence for region main region */
+	lightSwitch2_react_main_region__entry_Default(handle);
+}
+
+/* 'default' enter sequence for region LED2 */
+static void lightSwitch2_enseq_LED2_default(LightSwitch2* handle)
+{
+	/* 'default' enter sequence for region LED2 */
+	lightSwitch2_react_LED2__entry_Default(handle);
+}
+
+/* Default exit sequence for state off */
+static void lightSwitch2_exseq_main_region_off(LightSwitch2* handle)
+{
+	/* Default exit sequence for state off */
+	handle->stateConfVector[0] = LightSwitch2_last_state;
+	handle->stateConfVectorPosition = 0;
+	lightSwitch2_exact_main_region_off(handle);
+}
+
+/* Default exit sequence for state on */
+static void lightSwitch2_exseq_main_region_on(LightSwitch2* handle)
+{
+	/* Default exit sequence for state on */
+	handle->stateConfVector[0] = LightSwitch2_last_state;
+	handle->stateConfVectorPosition = 0;
+	lightSwitch2_exact_main_region_on(handle);
+}
+
+/* Default exit sequence for state off */
+static void lightSwitch2_exseq_LED2_off(LightSwitch2* handle)
+{
+	/* Default exit sequence for state off */
+	handle->stateConfVector[1] = LightSwitch2_last_state;
+	handle->stateConfVectorPosition = 1;
+	lightSwitch2_exact_LED2_off(handle);
+}
+
+/* Default exit sequence for state on */
+static void lightSwitch2_exseq_LED2_on(LightSwitch2* handle)
+{
+	/* Default exit sequence for state on */
+	handle->stateConfVector[1] = LightSwitch2_last_state;
+	handle->stateConfVectorPosition = 1;
+	lightSwitch2_exact_LED2_on(handle);
+}
+
+/* Default exit sequence for region main region */
+static void lightSwitch2_exseq_main_region(LightSwitch2* handle)
+{
+	/* Default exit sequence for region main region */
+	/* Handle exit of all possible states (of LightSwitch2.main_region) at position 0... */
+	switch(handle->stateConfVector[ 0 ])
+	{
+		case LightSwitch2_main_region_off :
+		{
+			lightSwitch2_exseq_main_region_off(handle);
+			break;
+		}
+		case LightSwitch2_main_region_on :
+		{
+			lightSwitch2_exseq_main_region_on(handle);
+			break;
+		}
+		default: break;
+	}
+}
+
+/* Default exit sequence for region LED2 */
+static void lightSwitch2_exseq_LED2(LightSwitch2* handle)
+{
+	/* Default exit sequence for region LED2 */
+	/* Handle exit of all possible states (of LightSwitch2.LED2) at position 1... */
+	switch(handle->stateConfVector[ 1 ])
+	{
+		case LightSwitch2_LED2_off :
+		{
+			lightSwitch2_exseq_LED2_off(handle);
+			break;
+		}
+		case LightSwitch2_LED2_on :
+		{
+			lightSwitch2_exseq_LED2_on(handle);
+			break;
+		}
+		default: break;
+	}
+}
+
+/* The reactions of state off. */
+static void lightSwitch2_react_main_region_off(LightSwitch2* handle)
+{
+	/* The reactions of state off. */
+	if (lightSwitch2_check_main_region_off_tr0_tr0(handle) == bool_true)
+	{ 
+		lightSwitch2_effect_main_region_off_tr0(handle);
+	} 
+}
+
+/* The reactions of state on. */
+static void lightSwitch2_react_main_region_on(LightSwitch2* handle)
+{
+	/* The reactions of state on. */
+	if (lightSwitch2_check_main_region_on_tr0_tr0(handle) == bool_true)
+	{ 
+		lightSwitch2_effect_main_region_on_tr0(handle);
+	} 
+}
+
+/* The reactions of state off. */
+static void lightSwitch2_react_LED2_off(LightSwitch2* handle)
+{
+	/* The reactions of state off. */
+	if (lightSwitch2_check_LED2_off_tr0_tr0(handle) == bool_true)
+	{ 
+		lightSwitch2_effect_LED2_off_tr0(handle);
+	} 
+}
+
+/* The reactions of state on. */
+static void lightSwitch2_react_LED2_on(LightSwitch2* handle)
+{
+	/* The reactions of state on. */
+	if (lightSwitch2_check_LED2_on_tr0_tr0(handle) == bool_true)
+	{ 
+		lightSwitch2_effect_LED2_on_tr0(handle);
+	} 
+}
+
+/* Default react sequence for initial entry  */
+static void lightSwitch2_react_main_region__entry_Default(LightSwitch2* handle)
+{
+	/* Default react sequence for initial entry  */
+	lightSwitch2_enseq_main_region_off_default(handle);
+}
+
+/* Default react sequence for initial entry  */
+static void lightSwitch2_react_LED2__entry_Default(LightSwitch2* handle)
+{
+	/* Default react sequence for initial entry  */
+	lightSwitch2_enseq_LED2_off_default(handle);
+}
+
+

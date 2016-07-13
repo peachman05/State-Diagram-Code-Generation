@@ -1,0 +1,84 @@
+
+#ifndef LIGHTSWITCH2_H_
+#define LIGHTSWITCH2_H_
+
+#include "..\src\sc_types.h"
+		
+#ifdef __cplusplus
+extern "C" { 
+#endif 
+
+/*! \file Header of the state machine 'LightSwitch2'.
+*/
+
+/*! Enumeration of all states */ 
+typedef enum
+{
+	LightSwitch2_LED1_off,
+	LightSwitch2_LED1_on,
+	LightSwitch2_LED2_off,
+	LightSwitch2_LED2_on,
+	LightSwitch2_last_state
+} LightSwitch2States;
+
+/*! Type definition of the data structure for the LightSwitch2TimeEvents interface scope. */
+typedef struct
+{
+	sc_boolean lightSwitch2_LED1_off_tev0_raised;
+	sc_boolean lightSwitch2_LED1_on_tev0_raised;
+	sc_boolean lightSwitch2_LED2_off_tev0_raised;
+	sc_boolean lightSwitch2_LED2_on_tev0_raised;
+} LightSwitch2TimeEvents;
+
+
+/*! Define dimension of the state configuration vector for orthogonal states. */
+#define LIGHTSWITCH2_MAX_ORTHOGONAL_STATES 2
+
+/*! 
+ * Type definition of the data structure for the LightSwitch2 state machine.
+ * This data structure has to be allocated by the client code. 
+ */
+typedef struct
+{
+	LightSwitch2States stateConfVector[LIGHTSWITCH2_MAX_ORTHOGONAL_STATES];
+	sc_ushort stateConfVectorPosition; 
+	
+	LightSwitch2TimeEvents timeEvents;
+} LightSwitch2;
+
+/*! Initializes the LightSwitch2 state machine data structures. Must be called before first usage.*/
+extern void lightSwitch2_init(LightSwitch2* handle);
+
+/*! Activates the state machine */
+extern void lightSwitch2_enter(LightSwitch2* handle);
+
+/*! Deactivates the state machine */
+extern void lightSwitch2_exit(LightSwitch2* handle);
+
+/*! Performs a 'run to completion' step. */
+extern void lightSwitch2_runCycle(LightSwitch2* handle);
+
+/*! Raises a time event. */
+extern void lightSwitch2_raiseTimeEvent(const LightSwitch2* handle, sc_eventid evid);
+
+
+/*!
+ * Checks whether the state machine is active (until 2.4.1 this method was used for states).
+ * A state machine is active if it was entered. It is inactive if it has not been entered at all or if it has been exited.
+ */
+extern sc_boolean lightSwitch2_isActive(const LightSwitch2* handle);
+
+/*!
+ * Checks if all active states are final. 
+ * If there are no active states then the state machine is considered being inactive. In this case this method returns false.
+ */
+extern sc_boolean lightSwitch2_isFinal(const LightSwitch2* handle);
+
+/*! Checks if the specified state is active (until 2.4.1 the used method for states was called isActive()). */
+extern sc_boolean lightSwitch2_isStateActive(const LightSwitch2* handle, LightSwitch2States state);
+
+#ifdef __cplusplus
+}
+#endif 
+
+#endif /* LIGHTSWITCH2_H_ */

@@ -1,0 +1,17 @@
+package org.yakindu.scr.lightswitch2;
+import org.yakindu.scr.IStatemachine;
+import org.yakindu.scr.ITimerCallback;
+
+public interface ILightSwitch2Statemachine extends ITimerCallback, IStatemachine {
+	public interface SCInterface {
+
+		public void setSCInterfaceOperationCallback(SCInterfaceOperationCallback operationCallback);
+	}
+
+	public interface SCInterfaceOperationCallback {
+		public void setLight(boolean lightOn, long numberLED);
+	}
+
+	public SCInterface getSCInterface();
+
+}
